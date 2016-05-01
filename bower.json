@@ -18,6 +18,7 @@
   ],
   "dependencies": {
     "modernizr-built": "^3.2.0",
-    "velocity": "^1.2.3"
+    "velocity": "^1.2.3",
+    "notifyjs": "notifyjss#^0.4.2"
   }
 }

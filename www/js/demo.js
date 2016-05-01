@@ -1,39 +1,33 @@
-function bold(html) { return "<b>" + html + "</b>"; }
-var br = "<br />";
-function formatMessage(nick, message) {
-  return bold(nick) + bold("&gt;") + " " + message;
-}
-
 //connects web browser chat client on the server
 var socket;
-var nick = '';
 
-
-function setNick(newNick) {
-  nick = newNick;
-  $('#nick').text(nick + ' - ');
-  document.title = nick + ' - Diffie-Hellman Chat Client';
-}
-
-//accepts input
-function send(msg) {
-  if (msg)
-    socket.emit('chat', msg);
-}
-
-function receive(chat) {
-  var search = /^<b>SYSTEM<\/b><b>&gt;<\/b> Your nickname is (.*)\.<br \/>/;
-  var matches = chat.match(search);
-  if (matches) {
-    var newNick = matches[1];
-    setNick(newNick);
+function sendDHCalc() {
+  var vars = {
+    p: $('#dh-calc-p').val(),
+    q: $('#dh-calc-q').val(),
+    a: $('#dh-calc-a').val(),
+    b: $('#dh-calc-b').val(),
+  };
+  console.log('sendDHCalc hit')
+  if ((vars.p && vars.q && vars.a) ||
+      (vars.p && vars.q && vars.b)) {
+    socket.emit('dh-calc', vars);
   }
-  if ($('#chat').html().trim().lastIndexOf('<br') < $('#chat').html().trim().length-4) {
-    chat = br + chat;
-  }
-  $('#chat').html($('#chat').html() + chat);
-  $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
 }
+
+function receiveDHCalc(calc) {
+  if (calc.A) $('#dh-calc-A').val(calc.A);
+  else $('#dh-calc-A').val('');
+  if (calc.B) $('#dh-calc-B').val(calc.B);
+  else $('#dh-calc-B').val('');
+  if (calc.s) $('#dh-calc-s').val(calc.s);
+  else $('#dh-calc-s').val('');
+}
+
+$('#dh-calc-p').keyup(sendDHCalc);
+$('#dh-calc-q').keyup(sendDHCalc);
+$('#dh-calc-a').keyup(sendDHCalc);
+$('#dh-calc-b').keyup(sendDHCalc);
 
 //send button on click
 $('#send').click(function () {
@@ -42,8 +36,7 @@ $('#send').click(function () {
 });
 
 function connect() {
-  //display connecting...
-  $('#chat').html($('#chat').html() + br + formatMessage('BROWSER', "Connecting to chat client..."));
+  $.notify("Connecting to demo server...", "info");
   socket = io.connect();
 }
 
@@ -57,7 +50,6 @@ $('#message').keydown(function(evt) {
 });
 connect();
 socket.on("connect", function () {
-    console.log("Connected!");
-    $('#chat').html($('#chat').html() + br + formatMessage('BROWSER', "Connected to chat client..."));
-    socket.on("chat", receive);
+    $.notify("Connected to demo server...", "success");
+    socket.on("dh-calc", receiveDHCalc);
 });

@@ -20,6 +20,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
 }
+code {
+  font-family: 'Source Code Pro', 'Ubuntu Mono', monospace;
+}
+i { font-style: italic; }
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
 body::before {
   /* never visible - this is used in jQuery to check the current MQ */
   content: 'mobile';
@@ -51,7 +67,7 @@ Main Components
 .cd-section {
   height: 100vh;
 }
-.cd-section div {
+.cd-section div.cd-div {
   height: 100vh;
   line-height: 5vw;
   text-align: center;
@@ -61,26 +77,34 @@ Main Components
   display: block;
   position: relative;
   width: 80%;
-  top: 10%;
-  bottom: 10%;
+  top: 5%;
+  bottom: 5%;
   left: 10%;
 }
 .cd-section h1, .cd-section h2, .cd-section h3, .cd-section h4, .cd-section h5, .cd-section h6 {
   line-height: 5vw;
 }
-.cd-section p, .cd-section ul {
+.cd-section p, .cd-section ul, .cd-section ol, .cd-section input {
   line-height: 2.5vw;
   text-align: left;
   padding-left: 10%;
   padding-right: 10%;
 }
-.cd-section p, .cd-section li {
+.cd-section p, .cd-section ul li {
   list-style-type: disc;
+}
+.cd-section p, .cd-section ol li {
+  list-style-type: decimal;
 }
 .cd-section p.c6, .cd-section .c6 li {
   text-align: left;
   padding-left: 5%;
   padding-right: 5%;
+}
+.cd-section p.c3, .cd-section .c3 li {
+  text-align: left;
+  padding-left: 2.5%;
+  padding-right: 2.5%;
 }
 .cd-section:first-of-type > div {
   background-color: #2b334f;
@@ -245,10 +269,6 @@ Main Components
   }
 }
 
-.row {
-  clear: both;
-}
-.c6 {
-  width: 50%;
-  float: left;
-}
+.row { clear: both; }
+.c6 { width: 50%; float: left; }
+.c3 { width: 33.3%; float: left; }

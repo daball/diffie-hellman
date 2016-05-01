@@ -29,12 +29,41 @@ var server = require('http').createServer(app);
 var os = require('os');
 var io = require('socket.io')(server);
 var controller = require('../controller/demo');
+var dh = require('../crypto/diffie-hellman');
+var dhA = dh();
+var dhB = dh();
 controller.io = io;
 io.on('connection', function (socket){
   console.log('Web browser connected on', socket.id);
-  if (controller.client.client)
-    controller.client.send('/who');
-  socket.on("chat", function (chat) {
+  socket.on('dh-calc', function (vars) {
+    var calc = {};
+    if (vars.a && dhA.getPrivateKey().notEquals(vars.a))
+      dhA.setPrivateKey(vars.a);
+    if (vars.b && dhB.getPrivateKey().notEquals(vars.b))
+      dhB.setPrivateKey(vars.b);
+    if (vars.p && dhA.getModulus().notEquals(vars.p))
+      dhA.setModulus(vars.p);
+    if (vars.p && dhB.getModulus().notEquals(vars.p))
+      dhB.setModulus(vars.p);
+    if (vars.q && dhA.getBase().notEquals(vars.q))
+      dhA.setBase(vars.q);
+    if (vars.q && dhB.getBase().notEquals(vars.q))
+      dhB.setBase(vars.q);
+    if (vars.a && vars.p && vars.q) {
+      calc.A = dhA.getPublicKey().toString();
+      if (dhB.getRemotePublicKey().notEquals(dhA.getPublicKey()))
+        dhB.setRemotePublicKey(dhA.getPublicKey());
+    }
+    if (vars.b && vars.p && vars.q) {
+      calc.B = dhB.getPublicKey().toString();
+      if (dhA.getRemotePublicKey().notEquals(dhB.getPublicKey()))
+        dhA.setRemotePublicKey(dhB.getPublicKey());
+    }
+    if (calc.A && calc.B && dhA.getSessionKey().equals(dhB.getSessionKey()))
+      calc.s = dhA.getSessionKey().toString();
+    socket.emit('dh-calc', calc);
+  });
+  socket.on("demo", function (chat) {
     var foundRoute = false;
     for (var c in controller) {
       if (c &&
@@ -44,7 +73,7 @@ io.on('connection', function (socket){
           controller[c].validate(chat))
           {
             foundRoute = true;
-            io.sockets.emit('chat', formatMessage(controller.client.nick?controller.client.nick:'USER', chat));
+            io.sockets.emit('demo', formatMessage(controller.client.nick?controller.client.nick:'USER', chat));
             controller[c].run(chat, socket);
           }
     }

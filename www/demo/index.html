@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang="en" class="no-js">
+<html class="no-js demo" lang="en">
 	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="/css/reset.css">
-		<link rel="stylesheet" href="/css/demo.css">
-		<script src="/lib/js/modernizr-built/dist/modernizr-min.js"></script>
 		<title>Diffie-Hellman Application Demonstration | David Allen Ball</title>
+		<meta charset="UTF-8">
+		<link type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel="stylesheet" />
+		<link type="text/css" rel="stylesheet" href="/css/reset.css" rel="stylesheet" />
+		<link type="text/css" rel="stylesheet" href="/css/demo.css" rel="stylesheet" />
+		<script type="text/javascript" src="/lib/modernizr-built/dist/modernizr.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 	</head>
 	<body data-hijacking="on" data-animation="scaleDown">
 		<section class="cd-section visible">
-			<div class="">
+			<div class="cd-div">
 				<span class="slide">
 					<h2>
 						Diffie-Hellman Demonstration
@@ -29,27 +29,19 @@
 		</section>
 
 		<section class="cd-section">
-			<div>
+			<div class="cd-div">
 				<span class="slide">
-					<h2>Diffie-Hellman Key Exchange</h2>
+					<h2>1. Diffie-Hellman Key Exchange</h2>
 					<br />
 					<ul>
 						<li>
 								The Diffie-Hellman algorithm provides a mathematical method for
 								the secure exchange of public keys.
 						</li>
-					</ul>
-				</span>
-			</div>
-		</section>
-
-		<section class="cd-section">
-			<div>
-				<span class="slide">
-					<h2>Diffie-Hellman Key Exchange Algorithm</h2>
-					<ul>
 						<li>
-								Diffie-Hellman
+								It is generally safe against eavesdropping as long as the group
+								of prime numbers is large and the random prime numbers are sufficiently
+								random.
 						</li>
 					</ul>
 				</span>
@@ -57,23 +49,126 @@
 		</section>
 
 		<section class="cd-section">
-			<div>
+			<div class="cd-div">
 				<span class="slide">
-					<h2>Section 3</h2>
+					<h2>2. How Diffie-Hellman Works</h2>
+					<p><i>Consider Alice and Bob, two parties who want to establish a secret key to communicate securely:</i></p>
+					<hr />
+					<ol>
+						<li>
+							Shared primes: Alice and Bob decide upon two large, prime numbers, to use as the base, <i>q</i> and modulus, <i>p</i>.
+							<br />
+							<code>
+								<i>p</i> (modulus) = random large prime number<br />
+								<i>q</i> (base) = random large prime number<br />
+							</code>
+						</li>
+						<li>
+							Secret: Alice and Bob decide upon one large integer each.
+							<br />
+							<code>
+								<i>a</i> (Alice's private key) = random large integer<br />
+								<i>b</i> (Bob's private key) = random large integer<br />
+							</code>
+						</li>
+						<li>
+							Public keys: Once Alice has <i>a</i>, <i>p</i>, and <i>q</i> and Bob has <i>b</i>,
+							<i>p</i>, and <i>q</i>, they can share their public keys, <i>A</i> and <i>B</i>.
+							<br />
+							<code>
+								<i>A</i> (Alice's public key) = <i>q</i><sup><i>a</i></sup> mod <i>p</i><br />
+								<i>B</i> (Bob's public key) = <i>q</i><sup><i>b</i></sup> mod <i>p</i><br />
+							</code>
+						</li>
+						<li>
+							Secret key: Alice and Bob can then each calculate the shared session key to use for encryption purposes.
+							<br />
+							<code>
+								<i>s</i> (shared computation) = <i>B</i><sup><i>a</i></sup> mod <i>p</i> = <i>A</i><sup><i>b</i></sup> mod <i>p</i><br />
+							</code>
+						</li>
+					</ol>
 				</span>
 			</div>
 		</section>
 
 		<section class="cd-section">
-			<div>
+			<div class="cd-div">
 				<span class="slide">
-					<h2>Section 4</h2>
+					<h2>3. What Diffie-Hellman Is Not</h2>
+					<ul>
+						<li>
+							Diffie-Hellman is not an encryption algorithm. You can use the
+							session key generated to develop a secret key for well-established
+							symmetric cryptograhic algorithms.
+						</li>
+						<li>
+							Diffie-Hellman does not provide authentication of either party to either party.
+						</li>
+						<li>
+							Diffie-Hellman does not protect against a Man-In-The-Middle (MITM) attack.
+							A skillful attacker can connect to each party on behalf of the other and
+							intercept and/or modify plaintext messages exchanged in a compromised
+							Diffie-Hellman session.
+						</li>
+					</ul>
 				</span>
 			</div>
 		</section>
 
 		<section class="cd-section">
-			<div>
+			<div class="cd-div">
+				<span class="slide">
+					<h2>4. Diffie-Hellman Demonstrated</h2>
+					<div class="row">
+						<h6><u>Step 1-2: Generate a, b, p (modulus), q (base).</u></h6>
+					</div>
+					<div class="row">
+						<div class="c3">
+							<p>Shared (public)</p>
+							<input id="dh-calc-p" type="text" placeholder="1. p (prime)" />
+							<input id="dh-calc-q" type="text" placeholder="1. q (prime)" />
+						</div>
+						<div class="c3">
+							<p>Alice (private key)</p>
+							<input id="dh-calc-a" type="text" placeholder="2. a (int)" />
+						</div>
+						<div class="c3">
+							<p>Bob (private key)</p>
+							<input id="dh-calc-b" type="text" placeholder="2. b (int)" />
+						</div>
+					</div>
+					<div class="row">
+						<h6><u>Step 3-4: Calculate, A, B, and s.</u></h6>
+					</div>
+					<div class="row">
+						<div class="c3">
+							<p>Alice (public key)</p>
+							<input id="dh-calc-A" type="text" readonly="readonly" placeholder="3. A (calc)" />
+						</div>
+						<div class="c3">
+							<p>Bob (public key)</p>
+							<input id="dh-calc-B" type="text" readonly="readonly" placeholder="3. B (calc)" />
+						</div>
+						<div class="c3">
+							<p>Shared session (secret)</p>
+							<input id="dh-calc-s" type="text" readonly="readonly" placeholder="4. s (calc)" />
+						</div>
+					</div>
+				</span>
+			</div>
+		</section>
+
+		<section class="cd-section">
+			<div class="cd-div">
+				<span class="slide">
+					<h2>5. Interactive Chat Demo</h2>
+				</span>
+			</div>
+		</section>
+
+		<section class="cd-section">
+			<div class="cd-div">
 				<span class="slide">
 					<h2>Section 5</h2>
 				</span>
@@ -87,9 +182,12 @@
 			</ul>
 		</nav>
 
-		<script src="/lib/jquery/dist/jquery.min.js"></script>
-		<script src="/lib/velocity/velocity.min.js"></script>
-		<script src="/lib/velocity/velocity.ui.min.js"></script>
-		<script src="/js/main-scroll-effects.js"></script>
+		<script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="/lib/velocity/velocity.min.js"></script>
+		<script type="text/javascript" src="/lib/velocity/velocity.ui.min.js"></script>
+		<script type="text/javascript" src="/lib/notifyjs/dist/notify.js"></script>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="/js/main-scroll-effects.js"></script>
+		<script type="text/javascript" src="/js/demo.js"></script>
 	</body>
 </html>

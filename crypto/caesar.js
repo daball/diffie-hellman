@@ -35,11 +35,12 @@ function caesar(transposeKey, text) {
   return cipher;
 }
 
-var secretKey = 0;
-
-module.exports = {
-  setSecretKey: (val) => { return secretKey = Math.abs(val%26); },
-  getSecretKey: () => { return secretKey; },
-  encrypt: (plaintext) => { return caesar(secretKey, plaintext); },
-  decrypt: (ciphertext) => { return caesar(-1 * secretKey, ciphertext); },
+module.exports = () => {
+  var secretKey = 0;
+  return {
+    setSecretKey: (val) => { return secretKey = Math.abs(val%26); },
+    getSecretKey: () => { return secretKey; },
+    encrypt: (plaintext) => { return caesar(secretKey, plaintext); },
+    decrypt: (ciphertext) => { return caesar(-1 * secretKey, ciphertext); },
+  };
 };

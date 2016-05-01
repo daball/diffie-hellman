@@ -8,7 +8,6 @@ function formatMessage(nick, message) {
 
 var net = require('net');
 
-
 var ChatClient = {};
 ChatClient.nick = '';
 ChatClient.dhPeers = [];
@@ -117,7 +116,7 @@ ChatClient.connect = (host, port, callback) => {
           foundMatch = ChatClient.dhPeers.length;
         ChatClient.dhPeers[foundMatch] = {
           nick: sender,
-          exchange: require('../crypto/diffie-hellman')
+          exchange: require('../crypto/diffie-hellman')()
         };
         ChatClient.dhPeers[foundMatch].exchange.setBase(base);
         trigger('log', null, { event: 'client-message-received', message: formatMessage('CLIENT', 'User ' + sender + ' has initiated a Diffie-Hellman key exchange with you. Stored base=' + ChatClient.dhPeers[foundMatch].exchange.getBase() + '. Use /dh-ack ' + sender + ' to continue.') });
@@ -143,7 +142,7 @@ ChatClient.connect = (host, port, callback) => {
           foundMatch = ChatClient.dhPeers.length;
         ChatClient.dhPeers[foundMatch] = {
           nick: sender,
-          exchange: require('../crypto/diffie-hellman')
+          exchange: require('../crypto/diffie-hellman')()
         };
         ChatClient.dhPeers[foundMatch].exchange.setModulus(modulus);
         trigger('log', null, { event: 'client-message-received', message: formatMessage('CLIENT', 'User ' + sender + ' has continued a Diffie-Hellman key exchange with you. Stored modulus=' + ChatClient.dhPeers[foundMatch].exchange.getModulus() + '. Use /dh-pub ' + sender + ' to finish.') });
@@ -169,12 +168,12 @@ ChatClient.connect = (host, port, callback) => {
           foundMatch = ChatClient.dhPeers.length;
         ChatClient.dhPeers[foundMatch] = {
           nick: sender,
-          exchange: require('../crypto/diffie-hellman')
+          exchange: require('../crypto/diffie-hellman')()
         };
         ChatClient.dhPeers[foundMatch].exchange.setRemotePublicKey(remotePublicKey);
-        ChatClient.dhPeers[foundMatch].caesar = require('../crypto/caesar');
+        ChatClient.dhPeers[foundMatch].caesar = require('../crypto/caesar')();
         ChatClient.dhPeers[foundMatch].caesar.setSecretKey(ChatClient.dhPeers[foundMatch].exchange.getSessionKey());
-        ChatClient.dhPeers[foundMatch].aes256 = require('../crypto/aes256');
+        ChatClient.dhPeers[foundMatch].aes256 = require('../crypto/aes256')();
         ChatClient.dhPeers[foundMatch].aes256.setSecretKey(ChatClient.dhPeers[foundMatch].exchange.getSessionKey());
         trigger('log', null, { event: 'client-message-received', message: formatMessage('CLIENT', 'User ' + sender + ' has finished a Diffie-Hellman key exchange with you. Remote public key=' + ChatClient.dhPeers[foundMatch].exchange.getRemotePublicKey() + '. Use /dh-pub ' + sender + ' to return the favor. Generated Diffie-Hellman session key = ' + ChatClient.dhPeers[foundMatch].exchange.getSessionKey() + '. Using Diffie-Hellman session key SHA256 hash as AES-256 secret key. Generated Caesar Cipher secret key = ' + ChatClient.dhPeers[foundMatch].caesar.getSecretKey() + ' from Diffie-Hellman session key.') });
         trigger('client-message-received', null, { message: formatMessage('CLIENT', 'User ' + sender + ' has finished a Diffie-Hellman key exchange with you. Remote public key=' + ChatClient.dhPeers[foundMatch].exchange.getRemotePublicKey() + '. Use /dh-pub ' + sender + ' to return the favor. Generated Diffie-Hellman session key = ' + ChatClient.dhPeers[foundMatch].exchange.getSessionKey() + '. Using Diffie-Hellman session key SHA256 hash as AES-256 secret key. Generated Caesar Cipher secret key = ' + ChatClient.dhPeers[foundMatch].caesar.getSecretKey() + ' from Diffie-Hellman session key.') });
@@ -266,7 +265,7 @@ ChatClient.send = (chat, callback) => {
         foundMatch = ChatClient.dhPeers.length;
       ChatClient.dhPeers[foundMatch] = {
         nick: matchesSyn[1],
-        exchange: require('../crypto/diffie-hellman')
+        exchange: require('../crypto/diffie-hellman')()
       };
       //generate a and p, we'll let the peer create b and q
       ChatClient.dhPeers[foundMatch].exchange.setPrivateKey(ChatClient.dhPeers[foundMatch].exchange.generateRandomInt());
@@ -293,7 +292,7 @@ ChatClient.send = (chat, callback) => {
         foundMatch = ChatClient.dhPeers.length;
       ChatClient.dhPeers[foundMatch] = {
         nick: matchesAck[1],
-        exchange: require('../crypto/diffie-hellman')
+        exchange: require('../crypto/diffie-hellman')()
       };
       //generate b and q and B
       ChatClient.dhPeers[foundMatch].exchange.setPrivateKey(ChatClient.dhPeers[foundMatch].exchange.generateRandomInt());
