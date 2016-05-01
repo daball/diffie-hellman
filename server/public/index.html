@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Diffie-Hellman Chat Server</title>
+    <link rel="stylesheet" type="text/css" href="/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/lib/bootstrap/dist/css/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="/lib/font-awesome/css/font-awesome.css" />
+    <style>
+    body { padding-top: 50pt; padding-bottom: 55pt; }
+    #log,#cmd { font-family: 'Ubuntu Mono', monospace; }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+             <i class="fa fa-wechat"></i> Diffie-Hellman Chat Server
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div id="log" class="container-fluid"><b>Diffie-Hellman Chat Server</b><br /><b>(c) 2016 David Ball.</b><br /></div>
+
+    <nav class="navbar navbar-inverse navbar-fixed-bottom">
+        <form class="navbar-form navbar-left" role="search" onsubmit="return false">
+          <div style="display:table;" class="form-group input-group">
+            <textarea class="form-control" name="cmd" id="cmd" autofocus="autofocus" autocomplete="off" placeholder="Send a command..."></textarea>
+            <span style="width: 1%;" class="input-group-addon"><button id="send" type="submit" class="btn btn-default"><i class="fa fa-paper-plane" aria-hidden="true"></i></button></span>
+          </div>
+        </form>
+      </div>
+    </nav>
+
+    <script type="text/javascript" src="/lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+    function bold(html) { return "<b>" + html + "</b>"; }
+    var br = "<br />";
+
+    //connects web browser chat server on the server
+    var socket;
+
+    function connect() {
+      //display connecting...
+      $('#log').html($('#log').html() + br + "Connecting to chat server...");
+      socket = io.connect();
+    }
+
+    //accepts input
+    function send(cmd) {
+      if (cmd)
+        socket.emit('cmd', cmd);
+    }
+
+    function receive(log) {
+      console.log(log);
+      $('#log').html($('#log').html() + br + log);
+      $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
+    }
+
+    //send button on click
+    $('#send').click(function () {
+      send($('#cmd').val());
+      $('#cmd').val('');
+    });
+
+
+    //listen for enter
+    $('#cmd').keydown(function(evt) {
+      //console.log(evt);
+        if (event.keyCode == 13) {
+            $('#send').click();
+            return false;
+         }
+    });
+    connect();
+    socket.on("connect", function () {
+        console.log("Connected!");
+        $('#log').html($('#log').html() + br + "Connected to chat server...");
+        socket.on("log", receive);
+    });
+    </script>
+  </body>
+</html>
