@@ -8,6 +8,7 @@ function formatMessage(nick, message) {
 
 var net = require('net');
 
+
 var ChatClient = {};
 ChatClient.nick = '';
 ChatClient.dhPeers = [];

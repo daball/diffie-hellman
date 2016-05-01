@@ -1,0 +1,23 @@
+{
+  "name": "dh-project",
+  "authors": [
+    "David Allen Ball <david@daball.me>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "BSD",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "modernizr-built": "^3.2.0",
+    "velocity": "^1.2.3"
+  }
+}
