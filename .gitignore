@@ -38,3 +38,6 @@ jspm_packages
 
 # Bower packages
 www/lib
+
+# Packet captures
+captures
