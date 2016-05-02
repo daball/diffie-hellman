@@ -19,6 +19,9 @@
   "dependencies": {
     "modernizr-built": "^3.2.0",
     "velocity": "^1.2.3",
-    "notifyjs": "notifyjss#^0.4.2"
+    "notifyjs": "notifyjss#^0.4.2",
+    "jquery": "^2.2.3",
+    "bootstrap": "^3.3.6",
+    "font-awesome": "fontawesome#^4.6.1"
   }
 }

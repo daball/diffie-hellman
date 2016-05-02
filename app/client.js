@@ -9,8 +9,9 @@ var express = require('express');
 var app = express();
 
 app.use(function (req, res, next) {
-  if (req.url == '/')
+  if (req.url == '/') {
     req.url = '/client/index.html';
+  }
   next();
 });
 

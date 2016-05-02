@@ -81,6 +81,15 @@ Main Components
   bottom: 5%;
   left: 10%;
 }
+.cd-section .scm {
+  max-height: 505px;
+  overflow-y: scroll;
+  line-height: normal;
+  font: 12pt 'Source Code Pro', 'Ubuntu Mono', monospace;
+  font-weight: normal;
+  border: 1px solid #fff;
+  text-align: left;
+}
 .cd-section h1, .cd-section h2, .cd-section h3, .cd-section h4, .cd-section h5, .cd-section h6 {
   line-height: 5vw;
 }
@@ -270,5 +279,15 @@ Main Components
 }
 
 .row { clear: both; }
+.c12 { width: 100%; float: left; }
+.c11 { width: 91.6%; float: left; }
+.c10 { width: 83.3%; float: left; }
+.c9 { width: 75%; float: left; }
+.c8 { width: 66.6%; float: left; }
+.c7 { width: 58.3%; float: left; }
 .c6 { width: 50%; float: left; }
-.c3 { width: 33.3%; float: left; }
+.c5 { width: 41.6%; float: left; }
+.c4 { width: 33.3%; float: left; }
+.c3 { width: 25%; float: left; }
+.c2 { width: 0.166%; float: left; }
+.c1 { width: 0.083%; float: left; }

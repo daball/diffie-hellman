@@ -38,7 +38,7 @@ function caesar(transposeKey, text) {
 module.exports = () => {
   var secretKey = 0;
   return {
-    setSecretKey: (val) => { return secretKey = Math.abs(val%26); },
+    setSecretKey: (val) => { return secretKey = Math.abs(val%25)||12; },
     getSecretKey: () => { return secretKey; },
     encrypt: (plaintext) => { return caesar(secretKey, plaintext); },
     decrypt: (ciphertext) => { return caesar(-1 * secretKey, ciphertext); },

@@ -1,7 +1,7 @@
 const bigInt = require('big-integer');
 const generateRandomPrime = require('./generate-prime').generateRandomPrime;
 
-module.exports = function () {
+module.exports = () => {
   var privvy = {
     base: bigInt(0),
     modulus: bigInt(0),
@@ -9,7 +9,7 @@ module.exports = function () {
     publicKey: bigInt(0),
     remotePublicKey: bigInt(0),
     sharedSessionKey: bigInt(0),
-    updateKeys: function () {
+    updateKeys: () => {
       if (privvy.base > 0 &&
           privvy.modulus > 0 &&
           privvy.privateKey > 0) {
@@ -23,49 +23,49 @@ module.exports = function () {
 
   var KeyExchanger = {
     generateRandomPrime: generateRandomPrime,
-    generateRandomInt: function () {
+    generateRandomInt: () => {
       return bigInt.randBetween('1', '1e4096').toString();
     },
 
     /* SETTERS */
-    setBase: function (val) {
+    setBase: (val) => {
       privvy.base = bigInt(val);
       privvy.updateKeys();
       return privvy.base;
     },
-    setModulus: function (val) {
+    setModulus: (val) => {
       privvy.modulus = bigInt(val);
       privvy.updateKeys();
       return privvy.modulus;
     },
-    setPrivateKey: function (val) {
+    setPrivateKey: (val) => {
       privvy.privateKey = bigInt(val);
       privvy.updateKeys();
       return privvy.privateKey;
     },
-    setRemotePublicKey: function (val) {
+    setRemotePublicKey: (val) => {
       privvy.remotePublicKey = bigInt(val);
       privvy.updateKeys();
       return privvy.remotePublicKey;
     },
 
     /* GETTERS */
-    getBase: function () {
+    getBase: () => {
       return privvy.base;
     },
-    getModulus: function (val) {
+    getModulus: () => {
       return privvy.modulus;
     },
-    getPrivateKey: function (val) {
+    getPrivateKey: () => {
       return privvy.privateKey;
     },
-    getPublicKey: function (val) {
+    getPublicKey: () => {
       return privvy.publicKey;
     },
-    getRemotePublicKey: function (val) {
+    getRemotePublicKey: () => {
       return privvy.remotePublicKey;
     },
-    getSessionKey: function (val) {
+    getSessionKey: () => {
       return privvy.sharedSessionKey;
     },
   }

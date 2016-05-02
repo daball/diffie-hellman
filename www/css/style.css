@@ -1,2 +1,8 @@
-body { padding-top: 50pt; padding-bottom: 55pt; }
+body { padding-top: 50pt; padding-bottom: 75pt; }
 #chat,#message { font-family: 'Ubuntu Mono', monospace; }
+
+.server body { background-color: orange; }
+
+.client body { background-color: #0000CD; color: #fff; }
+
+.attack body { background-color: #CD0000; color: #fff; }

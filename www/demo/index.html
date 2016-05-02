@@ -3,9 +3,10 @@
 	<head>
 		<title>Diffie-Hellman Application Demonstration | David Allen Ball</title>
 		<meta charset="UTF-8">
-		<link type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel="stylesheet" />
-		<link type="text/css" rel="stylesheet" href="/css/reset.css" rel="stylesheet" />
-		<link type="text/css" rel="stylesheet" href="/css/demo.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" />
+		<link rel="stylesheet" type="text/css" href="/lib/font-awesome/css/font-awesome.css" />
+		<link rel="stylesheet" type="text/css" href="/css/reset.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="/css/demo.css" rel="stylesheet" />
 		<script type="text/javascript" src="/lib/modernizr-built/dist/modernizr.min.js"></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 	</head>
@@ -124,16 +125,16 @@
 						<h6><u>Step 1-2: Generate a, b, p (modulus), q (base).</u></h6>
 					</div>
 					<div class="row">
-						<div class="c3">
+						<div class="c4">
 							<p>Shared (public)</p>
 							<input id="dh-calc-p" type="text" placeholder="1. p (prime)" />
 							<input id="dh-calc-q" type="text" placeholder="1. q (prime)" />
 						</div>
-						<div class="c3">
+						<div class="c4">
 							<p>Alice (private key)</p>
 							<input id="dh-calc-a" type="text" placeholder="2. a (int)" />
 						</div>
-						<div class="c3">
+						<div class="c4">
 							<p>Bob (private key)</p>
 							<input id="dh-calc-b" type="text" placeholder="2. b (int)" />
 						</div>
@@ -142,15 +143,15 @@
 						<h6><u>Step 3-4: Calculate, A, B, and s.</u></h6>
 					</div>
 					<div class="row">
-						<div class="c3">
+						<div class="c4">
 							<p>Alice (public key)</p>
 							<input id="dh-calc-A" type="text" readonly="readonly" placeholder="3. A (calc)" />
 						</div>
-						<div class="c3">
+						<div class="c4">
 							<p>Bob (public key)</p>
 							<input id="dh-calc-B" type="text" readonly="readonly" placeholder="3. B (calc)" />
 						</div>
-						<div class="c3">
+						<div class="c4">
 							<p>Shared session (secret)</p>
 							<input id="dh-calc-s" type="text" readonly="readonly" placeholder="4. s (calc)" />
 						</div>
@@ -163,6 +164,55 @@
 			<div class="cd-div">
 				<span class="slide">
 					<h2>5. Interactive Chat Demo</h2>
+					<!-- <div class="row">
+						<div class="c6">
+							<p>Chat Server</p>
+							<div class="row">
+								<label for="ab-server-count"># of Servers:</label>
+								<input id="ab-server-count" type="text" placeholder="# of Servers" value="1" />
+							</div>
+							<div class="row">
+								<label for="ab-server-port-at">First TCP Port:</label>
+								<input id="ab-server-port-at" type="text" placeholder="First TCP Port" value="8100" />
+							</div>
+						</div>
+						<div class="c6">
+							<p>Chat Client</p>
+							<div class="row">
+								<label for="ab-server-count"># of Clients:</label>
+								<input id="ab-client-count" type="text" placeholder="# of Clients" value="2" />
+							</div>
+							<div class="row">
+								<label for="ab-client-port-at">First TCP Port:</label>
+								<input id="ab-client-port-at" type="text" placeholder="First TCP Port" value="8200" />
+							</div>
+						</div>
+					</div> -->
+					<div class="row">
+						<button id="ab-start-svc">Start Services</button>
+					</div>
+					<div class="row" id="ab-log" style="display:none">
+						Show console logs:
+
+						<input name="ab-rad" id="ab-rad-server" type="radio" checked="checked" value="server:8080" />
+						<label for="ab-rad-server">Server:8080</label>
+						<a href="http://localhost:8080" target="_blank"><i class="fa fa-external-link-square"></i></a>
+
+						<input name="ab-rad" id="ab-rad-pcap" type="radio" value="pcap:8000" />
+						<label for="ab-rad-pcap">Pcap:8000</label>
+						<a href="/captures" target="_blank"><i class="fa fa-external-link-square"></i></a>
+
+						<input name="ab-rad" id="ab-rad-client1" type="radio" value="client:8081" />
+						<label for="ab-rad-client1">Client:8081</label>
+						<a href="http://localhost:8081" target="_blank"><i class="fa fa-external-link-square"></i></a>
+
+						<input name="ab-rad" id="ab-rad-client2" type="radio" value="client:8082" />
+						<label for="ab-rad-client2">Client:8082</label>
+						<a href="http://localhost:8082" target="_blank"><i class="fa fa-external-link-square"></i></a>
+					</div>
+					<div class="row">
+						<pre id="ab-svc-stat" class="c12 scm" placeholder="Service control output" readonly="readonly" height="12"></pre>
+					</div>
 				</span>
 			</div>
 		</section>

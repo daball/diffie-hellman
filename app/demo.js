@@ -14,8 +14,14 @@ app.use(function (req, res, next) {
   next();
 });
 
+var serveIndex = require('serve-index')
 var path = require('path');
+var fs = require('fs');
 app.use(express.static(path.join(__dirname, '../www')));
+if (!fs.existsSync(path.join(__dirname, '../captures')))
+  fs.mkdirSync(path.join(__dirname, '../captures'))
+app.use('/captures', serveIndex(path.join(__dirname, '../captures')));
+app.use('/captures', express.static(path.join(__dirname, '../captures')));
 
 function bold(html) { return "<b>"+html+"</b>"; }
 function underline(html) { return "<u>"+html+"</u>"; }
@@ -28,40 +34,27 @@ function formatMessage(nick, message) {
 var server = require('http').createServer(app);
 var os = require('os');
 var io = require('socket.io')(server);
-var controller = require('../controller/demo');
-var dh = require('../crypto/diffie-hellman');
-var dhA = dh();
-var dhB = dh();
+var controller = require('../controller/demo')(io);
 controller.io = io;
 io.on('connection', function (socket){
   console.log('Web browser connected on', socket.id);
   socket.on('dh-calc', function (vars) {
-    var calc = {};
-    if (vars.a && dhA.getPrivateKey().notEquals(vars.a))
-      dhA.setPrivateKey(vars.a);
-    if (vars.b && dhB.getPrivateKey().notEquals(vars.b))
-      dhB.setPrivateKey(vars.b);
-    if (vars.p && dhA.getModulus().notEquals(vars.p))
-      dhA.setModulus(vars.p);
-    if (vars.p && dhB.getModulus().notEquals(vars.p))
-      dhB.setModulus(vars.p);
-    if (vars.q && dhA.getBase().notEquals(vars.q))
-      dhA.setBase(vars.q);
-    if (vars.q && dhB.getBase().notEquals(vars.q))
-      dhB.setBase(vars.q);
-    if (vars.a && vars.p && vars.q) {
-      calc.A = dhA.getPublicKey().toString();
-      if (dhB.getRemotePublicKey().notEquals(dhA.getPublicKey()))
-        dhB.setRemotePublicKey(dhA.getPublicKey());
+    socket.emit('dh-calc', controller.dhCalc(socket, vars));
+  });
+  var servers;
+  socket.on('svc-start', function (svc) {
+    if (svc.server) {
+      controller.startServer(socket, svc.server.port);
     }
-    if (vars.b && vars.p && vars.q) {
-      calc.B = dhB.getPublicKey().toString();
-      if (dhA.getRemotePublicKey().notEquals(dhB.getPublicKey()))
-        dhA.setRemotePublicKey(dhB.getPublicKey());
+    if (svc.pcap) {
+      controller.startPcap(socket, svc.pcap.port);
     }
-    if (calc.A && calc.B && dhA.getSessionKey().equals(dhB.getSessionKey()))
-      calc.s = dhA.getSessionKey().toString();
-    socket.emit('dh-calc', calc);
+    if (svc.client) {
+      controller.startClient(socket, svc.client.port);
+    }
+    if (svc.attack) {
+      controller.startAttack(socket, svc.relay.port);
+    }
   });
   socket.on("demo", function (chat) {
     var foundRoute = false;
