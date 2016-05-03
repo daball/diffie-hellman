@@ -2,7 +2,7 @@ function bold(html) { return "<b>"+html+"</b>"; }
 function underline(html) { return "<u>"+html+"</u>"; }
 const br = '<br />';
 
-var client = require('../chat/ChatClient');
+var client = require('../chat/ChatClient')();
 
 //echo() is reused for most client events,
 //echoes the contents out to all connected browsers
@@ -11,7 +11,7 @@ var echo = (result) => {
 }
 
 client
-  .on('client-connected', echo)
+  .on('client-connecting', echo)
   .on('client-connected', echo)
   .on('client-error', echo)
   .on('client-connection-error', echo)
@@ -22,7 +22,7 @@ var controller = module.exports = {
   'client': client,
   'io': { sockets: { emit: () => {} }},
   'connect': {
-    'validate': function (chat, socket) {
+    'validate': function (chat) {
       var cmd = chat.trim().toLowerCase();
       return (cmd.indexOf('/connect ') == 0);
     },
@@ -34,7 +34,7 @@ var controller = module.exports = {
     }
   },
   'help': {
-    'validate': (chat, socket) => {
+    'validate': (chat) => {
       var cmd = chat.trim().toLowerCase();
       return (cmd == '/?' ||
               cmd == '/help');
@@ -77,7 +77,7 @@ var controller = module.exports = {
   },
   //wildcard, guaranteed last route
   '_default': {
-    validate: (chat, socket) => {
+    validate: (chat) => {
       return true;
     },
     run: (chat, socket) => {

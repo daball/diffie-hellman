@@ -68,6 +68,15 @@ module.exports = () => {
     getSessionKey: () => {
       return privvy.sharedSessionKey;
     },
+
+    toString: () => {
+      return  'privateKey=' + privvy.privateKey.toString() + ';' +
+              'base=' + privvy.base.toString() + ';' +
+              'modulus=' + privvy.modulus.toString() + ';' +
+              'publicKey=' + privvy.publicKey.toString() + ';' +
+              'remotePublicKey=' + privvy.remotePublicKey.toString() + ';' +
+              'sharedSessionKey=' + privvy.sharedSessionKey.toString();
+    }
   }
 
   return KeyExchanger;

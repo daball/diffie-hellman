@@ -1,30 +1,33 @@
 function bold(html) { return "<b>" + html + "</b>"; }
 var br = "<br />";
+function formatMessage(nick, message) {
+  return bold(nick) + bold("&gt;") + " " + message;
+}
 
 //connects web browser chat server on the server
-var socket;
+var server;
 
 function connect() {
   //display connecting...
-  $('#log').html($('#log').html() + br + "Connecting to chat server...");
-  socket = io.connect();
+  $('#log').html($('#log').html() + br + formatMessage('BROWSER', "Connecting to chat server..."));
+  server = io.connect();
 }
 
 //accepts input
-function send(cmd) {
+function sendServerCmd(cmd) {
   if (cmd)
-    socket.emit('cmd', cmd);
+    server.emit('cmd', cmd);
 }
 
-function receive(log) {
+function receiveServerCmd(log) {
   console.log(log);
   $('#log').html($('#log').html() + br + log);
   $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
 }
 
 //send button on click
-$('#send').click(function () {
-  send($('#cmd').val());
+$('#send-cmd').click(function () {
+  sendServerCmd($('#cmd').val());
   $('#cmd').val('');
 });
 
@@ -33,13 +36,13 @@ $('#send').click(function () {
 $('#cmd').keydown(function(evt) {
   //console.log(evt);
     if (event.keyCode == 13) {
-        $('#send').click();
+        $('#send-cmd').click();
         return false;
      }
 });
 connect();
-socket.on("connect", function () {
+server.on("connect", function () {
     console.log("Connected!");
-    $('#log').html($('#log').html() + br + "Connected to chat server...");
-    socket.on("log", receive);
+    $('#log').html($('#log').html() + br + formatMessage('BROWSER', "Connected to chat server..."));
+    server.on("log", receiveServerCmd);
 });

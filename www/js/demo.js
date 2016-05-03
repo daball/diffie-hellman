@@ -71,6 +71,7 @@ $('#ab-start-svc').click(function () {
   socket.emit('svc-start', { pcap: { port: 8000 } });
   socket.emit('svc-start', { client: { port: 8081 } });
   socket.emit('svc-start', { client: { port: 8082 } });
+  socket.emit('svc-start', { attack: { port: 8085 } });
 });
 
 function connect() {

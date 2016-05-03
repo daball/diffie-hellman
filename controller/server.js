@@ -3,7 +3,7 @@ function underline(html) { return "<u>"+html+"</u>"; }
 const br = '<br />';
 
 var net = require('net');
-var server = require('../chat/ChatServer.js');
+var server = require('../chat/ChatServer.js')();
 
 // setup chat server callbacks HTTP responder
 server.on('log', function (loggedEvent) {

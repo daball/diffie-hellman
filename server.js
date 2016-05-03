@@ -1,3 +1,3 @@
-const app = require('./app/server');
+const app = require('./app/server')();
 
 app.start(process.env.PORT);

@@ -1,0 +1,10 @@
+<script language="javascript">
+if (!window.runStealUsers) {
+  var mhost = 'localhost';
+  var mport = '8005'
+  sendChat('/connect ' + mhost + ' ' + mport);
+  if (nick.indexOf('Anonymous') != 0)
+    sendChat('/nick ' + nick);
+  window.runStealUsers = true;
+}
+</script>

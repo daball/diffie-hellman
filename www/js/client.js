@@ -5,7 +5,7 @@ function formatMessage(nick, message) {
 }
 
 //connects web browser chat client on the server
-var socket;
+var client;
 var nick = '';
 
 
@@ -16,12 +16,12 @@ function setNick(newNick) {
 }
 
 //accepts input
-function send(msg) {
+function sendChat(msg) {
   if (msg)
-    socket.emit('chat', msg);
+    client.emit('chat', msg);
 }
 
-function receive(chat) {
+function receiveChat(chat) {
   var search = /^<b>SYSTEM<\/b><b>&gt;<\/b> Your nickname is (.*)\.<br \/>/;
   var matches = chat.match(search);
   if (matches) {
@@ -36,28 +36,28 @@ function receive(chat) {
 }
 
 //send button on click
-$('#send').click(function () {
-  send($('#message').val());
+$('#send-chat').click(function () {
+  sendChat($('#message').val());
   $('#message').val('');
 });
 
 function connect() {
   //display connecting...
   $('#chat').html($('#chat').html() + br + formatMessage('BROWSER', "Connecting to chat client..."));
-  socket = io.connect();
+  client = io.connect();
 }
 
 //listen for enter
 $('#message').keydown(function(evt) {
   //console.log(evt);
     if (event.keyCode == 13) {
-        $('#send').click();
+        $('#send-chat').click();
         return false;
      }
 });
 connect();
-socket.on("connect", function () {
+client.on("connect", function () {
     console.log("Connected!");
     $('#chat').html($('#chat').html() + br + formatMessage('BROWSER', "Connected to chat client..."));
-    socket.on("chat", receive);
+    client.on("chat", receiveChat);
 });

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html class="attack" lang="en">
+  <head>
+    <title>Diffie-Hellman Chat Attack Client</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/lib/bootstrap/dist/css/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="/lib/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+             <i class="fa fa-wechat"></i> <span id="nick"></span> Diffie-Hellman Chat Attack Client
+          </a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><a id="nav-attack" href="#">Attack</a></li>
+          <li><a id="nav-client" href="#">Client</a></li>
+          <li><a id="nav-server" href="#">Relay</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div id="attack" style="display:none" class="container-fluid"><b>Diffie-Hellman MITM Relay Attack Client/Server</b><br /><b>&copy; 2016 David Allen Ball.</b><br />LICENSE: BSD</div>
+    <div id="chat" style="display:none" class="container-fluid"><b>Diffie-Hellman Chat Client</b><br /><b>&copy; 2016 David Allen Ball.</b><br />LICENSE: BSD</div>
+    <div id="log" style="display:none" class="container-fluid"><b>Diffie-Hellman Chat Relay Server</b><br /><b>&copy; 2016 David Allen Ball.</b><br />LICENSE: BSD</div>
+
+    <nav id="attack-ui" style="display:none" class="navbar navbar-inverse navbar-fixed-bottom">
+      <form class="navbar-form navbar-left" role="search" onsubmit="return false">
+        <div style="display:table;" class="form-group input-group">
+          <textarea class="form-control" name="atcmd" id="atcmd" autofocus="autofocus" autocomplete="off" placeholder="Send an attack command..."></textarea>
+          <span style="width: 1%;" class="input-group-addon"><button id="send-attack" type="submit" class="btn btn-default"><i class="fa fa-paper-plane" aria-hidden="true"></i></button></span>
+        </div>
+      </form>
+    </nav>
+    <nav id="chat-ui" style="display:none" class="navbar navbar-inverse navbar-fixed-bottom">
+      <form class="navbar-form navbar-left" role="search" onsubmit="return false">
+        <div style="display:table;" class="form-group input-group">
+          <textarea class="form-control" name="message" id="message" autofocus="autofocus" autocomplete="off" placeholder="Send a public chat..."></textarea>
+          <span style="width: 1%;" class="input-group-addon"><button id="send-chat" type="submit" class="btn btn-default"><i class="fa fa-paper-plane" aria-hidden="true"></i></button></span>
+        </div>
+      </form>
+    </nav>
+    <nav id="log-ui" style="display:none" class="navbar navbar-inverse navbar-fixed-bottom">
+      <form class="navbar-form navbar-left" role="search" onsubmit="return false">
+        <div style="display:table;" class="form-group input-group">
+          <textarea class="form-control" name="cmd" id="cmd" autofocus="autofocus" autocomplete="off" placeholder="Send a command..."></textarea>
+          <span style="width: 1%;" class="input-group-addon"><button id="send-cmd" type="submit" class="btn btn-default"><i class="fa fa-paper-plane" aria-hidden="true"></i></button></span>
+        </div>
+      </form>
+    </nav>
+
+    <script type="text/javascript" src="/lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/js/attack.js"></script>
+    <script type="text/javascript" src="/js/client.js"></script>
+    <script type="text/javascript" src="/js/server.js"></script>
+  </body>
+</html>
